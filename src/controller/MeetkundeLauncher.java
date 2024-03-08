@@ -5,6 +5,8 @@ import model.Figuur;
 import model.Punt;
 import model.Rechthoek;
 
+import java.util.ArrayList;
+
 /**
  * @author Vincent Velthuizen
  * Spelen met meetkunde
@@ -12,13 +14,17 @@ import model.Rechthoek;
 public class MeetkundeLauncher {
 
     public static void main(String[] args) {
-        Figuur[] figuren = new Figuur[3];
-        figuren[0] = new Cirkel(2, new Punt(1, 4), "groen");
-        figuren[1] = new Cirkel(6);
-        figuren[2] = new Rechthoek();
+        ArrayList<Cirkel> cirkels = new ArrayList<>();
+        cirkels.add(new Cirkel(3, new Punt(1, 4), "groen"));
+        cirkels.add(0, new Cirkel());
+        cirkels.add(new Cirkel(6));
 
-        for (int i = 0; i < figuren.length; i++) {
-            toonInformatie(figuren[i]);
+        for (int cirkel = 0; cirkel < cirkels.size(); cirkel++) {
+            System.out.println(cirkels.get(cirkel));
+        }
+
+        for (Cirkel cirkel : cirkels) {
+            System.out.println(cirkel);
         }
     }
 
