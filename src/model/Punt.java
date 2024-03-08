@@ -21,12 +21,10 @@ public class Punt {
         this(DEFAULT_X_COORDINAAT, DEFAULT_Y_COORDINAAT);
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("(%.2f, %.2f)", xCoordinaat, yCoordinaat);
-//    }
-
-
+    @Override
+    public String toString() {
+        return String.format("(%.2f, %.2f)", xCoordinaat, yCoordinaat);
+    }
 
     public double getxCoordinaat() {
         return xCoordinaat;

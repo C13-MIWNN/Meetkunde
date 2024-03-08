@@ -4,7 +4,7 @@ package model;
  * @author Vincent Velthuizen
  * Beschrijft algemene eigenschappen die alle figuren gemeen hebben
  **/
-public class Figuur {
+public abstract class Figuur {
     private static final double GRENSWAARDE_GROOT_FIGUUR = 100.0;
     protected static final String DEFAULT_KLEUR = "darksalmon";
 
@@ -22,15 +22,9 @@ public class Figuur {
         return "Een figuur is een verzameling punten.";
     }
 
-    public double geefOmtrek() {
-        // TODO eigenlijk is dit niet zo mooi
-        return 0;
-    }
+    public abstract double geefOmtrek();
 
-    public double geefOppervlakte() {
-        // TODO eigenlijk is dit niet een goed antwoord...
-        return 0;
-    }
+    public abstract double geefOppervlakte();
 
     public String vertelOverGrootte() {
         if (geefOppervlakte() > GRENSWAARDE_GROOT_FIGUUR) {
