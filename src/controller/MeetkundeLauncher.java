@@ -4,6 +4,8 @@ import model.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * @author Vincent Velthuizen
@@ -12,22 +14,27 @@ import java.util.ArrayList;
 public class MeetkundeLauncher {
 
     public static void main(String[] args) {
-        Oppervlak oppervlak2 = new Oppervlak(10, 7);
-        oppervlak2.voegFiguurToe(new Rechthoek(4, 3, new Punt(0, 7), "rood"));
-        oppervlak2.voegFiguurToe(new Cirkel(4, new Punt(1.5, 1.5), "geel"));
-        oppervlak2.voegFiguurToe(new Rechthoek(9, 8, new Punt(3, 2), "groen"));
-        oppervlak2.voegFiguurToe(new Rechthoek(4, 1, new Punt(5, 7), "oranje"));
-        oppervlak2.voegFiguurToe(new Cirkel(2, new Punt(8, 5), "paars"));
-        oppervlak2.voegFiguurToe(new Rechthoek(11, 3, new Punt(5, 3), "blauw"));
+        Scanner keyboard = new Scanner(System.in);
 
-        for (Figuur figuur : oppervlak2.geefFigurenMetGrotereOppervlakte(1)) {
-            if (figuur instanceof Rechthoek) {
-                System.out.println("Rechthoek!");
-            } else {
-                System.out.println("Geen rechthoek :(");
+        Cirkel mijnCirkel = null;
+
+        while (mijnCirkel == null) {
+            System.out.print("Geef een straal ");
+            try {
+                double straal = keyboard.nextDouble();
+                mijnCirkel = new Cirkel(straal);
+                System.out.println("Het is gelukt...");
+            } catch (IllegalArgumentException illegalArgumentException) {
+                System.out.println(illegalArgumentException.getMessage());
+            } catch (InputMismatchException inputMismatchException) {
+                keyboard.nextLine();
+                System.out.println("Dat was geen komma getal, probeer het opnieuw");
+            } finally {
+                System.out.println("Je invoer is correct afgehandeld");
             }
         }
 
-        System.out.println(oppervlak2);
+        System.out.println("\nHet is gelukt om een cirkel te maken");
+        System.out.println(mijnCirkel);
     }
 }
