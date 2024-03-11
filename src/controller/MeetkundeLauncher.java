@@ -27,5 +27,7 @@ public class MeetkundeLauncher {
                 System.out.println("Geen rechthoek :(");
             }
         }
+
+        System.out.println(oppervlak2);
     }
 }

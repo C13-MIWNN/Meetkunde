@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Vincent Velthuizen
@@ -19,26 +20,12 @@ public class Oppervlak {
     }
 
     public void voegFiguurToe(Figuur figuur) {
-        if (figuurPastAlsVormInOppervlak(figuur)) {
+        if (figuur.pastInOppervlak(lengte, breedte)) {
             figuren.add(figuur);
             System.out.println("Dit figuur is toegevoegd");
         } else {
             System.out.println("Dit figuur is te groot");
         }
-    }
-
-    private boolean figuurPastAlsVormInOppervlak(Figuur figuur) {
-        boolean figuurPastInOppervlak = false;
-
-        if (figuur instanceof Rechthoek) {
-            figuurPastInOppervlak = ((Rechthoek) figuur).getLengte() <= lengte
-                    && ((Rechthoek) figuur).getBreedte() <= breedte;
-        } else if (figuur instanceof Cirkel) {
-            figuurPastInOppervlak = ((Cirkel) figuur).getStraal() <= lengte / 2
-                    && ((Cirkel) figuur).getStraal() <= breedte / 2;
-        }
-
-        return figuurPastInOppervlak;
     }
 
     public ArrayList<Figuur> geefFigurenMetGrotereOppervlakte(double grenswaarde) {
@@ -55,12 +42,14 @@ public class Oppervlak {
 
     @Override
     public String toString() {
-        String returnString = "Mijn oppervlak bevat:";
+        Collections.sort(figuren);
+
+        StringBuilder stringBuilderCirkel = new StringBuilder("Mijn oppervlak bevat:");
 
         for (Figuur figuur : figuren) {
-            returnString += "\n\n" + figuur;
+            stringBuilderCirkel.append("\n\n").append(figuur);
         }
 
-        return returnString;
+        return stringBuilderCirkel.toString();
     }
 }
