@@ -6,6 +6,7 @@ import model.Rechthoek;
 import javax.security.sasl.RealmChoiceCallback;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,10 +19,7 @@ public class MeetkundeLauncher {
     public static void main(String[] args){
 
         ArrayList<Rechthoek> rechthoeken = new ArrayList<>();
-        File rechthoekenBestand = new File("resources/Rechthoek.csv");
-        try {
-            Scanner rechthoekenScanner = new Scanner(rechthoekenBestand);
-
+        try (Scanner rechthoekenScanner = new Scanner(new File("resources/Rechthoek.csv"))) {
             while (rechthoekenScanner.hasNextLine()) {
                 String[] rechthoekWaarden = rechthoekenScanner.nextLine().split(",");
 
@@ -37,8 +35,15 @@ public class MeetkundeLauncher {
             System.out.println("Het bestand is niet gevonden");
         }
 
-        for (Rechthoek rechthoek : rechthoeken) {
-            System.out.println(rechthoek);
+        try (PrintWriter printWriter = new PrintWriter("resources/Rechthoeken.txt")) {
+
+            for (Rechthoek rechthoek : rechthoeken) {
+                printWriter.println(rechthoek);
+                printWriter.println();
+            }
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Het bestand kon niet worden aangemaakt.");
         }
     }
 }
