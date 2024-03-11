@@ -1,10 +1,12 @@
 package controller;
 
-import model.*;
+import model.Punt;
+import model.Rechthoek;
 
-import java.lang.reflect.Array;
+import javax.security.sasl.RealmChoiceCallback;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -13,28 +15,30 @@ import java.util.Scanner;
  **/
 public class MeetkundeLauncher {
 
-    public static void main(String[] args) {
-        Scanner keyboard = new Scanner(System.in);
+    public static void main(String[] args){
 
-        Cirkel mijnCirkel = null;
+        ArrayList<Rechthoek> rechthoeken = new ArrayList<>();
+        File rechthoekenBestand = new File("resources/Rechthoek.csv");
+        try {
+            Scanner rechthoekenScanner = new Scanner(rechthoekenBestand);
 
-        while (mijnCirkel == null) {
-            System.out.print("Geef een straal ");
-            try {
-                double straal = keyboard.nextDouble();
-                mijnCirkel = new Cirkel(straal);
-                System.out.println("Het is gelukt...");
-            } catch (IllegalArgumentException illegalArgumentException) {
-                System.out.println(illegalArgumentException.getMessage());
-            } catch (InputMismatchException inputMismatchException) {
-                keyboard.nextLine();
-                System.out.println("Dat was geen komma getal, probeer het opnieuw");
-            } finally {
-                System.out.println("Je invoer is correct afgehandeld");
+            while (rechthoekenScanner.hasNextLine()) {
+                String[] rechthoekWaarden = rechthoekenScanner.nextLine().split(",");
+
+                double lengte = Double.parseDouble(rechthoekWaarden[0]);
+                double breedte = Double.parseDouble(rechthoekWaarden[1]);
+                double xCoordinaat = Double.parseDouble(rechthoekWaarden[2]);
+                double yCoordinaat = Double.parseDouble(rechthoekWaarden[3]);
+                String kleur = rechthoekWaarden[4];
+
+                rechthoeken.add(new Rechthoek(lengte, breedte, new Punt(xCoordinaat, yCoordinaat), kleur));
             }
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Het bestand is niet gevonden");
         }
 
-        System.out.println("\nHet is gelukt om een cirkel te maken");
-        System.out.println(mijnCirkel);
+        for (Rechthoek rechthoek : rechthoeken) {
+            System.out.println(rechthoek);
+        }
     }
 }
