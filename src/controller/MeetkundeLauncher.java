@@ -1,14 +1,14 @@
 package controller;
 
+import database.CirkelDAO;
+import database.DBaccess;
+import database.PuntDAO;
+import model.Cirkel;
 import model.Punt;
-import model.Rechthoek;
 
-import javax.security.sasl.RealmChoiceCallback;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author Vincent Velthuizen
@@ -17,33 +17,15 @@ import java.util.Scanner;
 public class MeetkundeLauncher {
 
     public static void main(String[] args){
+        DBaccess dBaccess = new DBaccess("figuren",
+                "userFiguren", "userFigurenPW");
+        PuntDAO puntDAO = new PuntDAO(dBaccess);
+        CirkelDAO cirkelDAO = new CirkelDAO(dBaccess);
 
-        ArrayList<Rechthoek> rechthoeken = new ArrayList<>();
-        try (Scanner rechthoekenScanner = new Scanner(new File("resources/Rechthoek.csv"))) {
-            while (rechthoekenScanner.hasNextLine()) {
-                String[] rechthoekWaarden = rechthoekenScanner.nextLine().split(",");
+        dBaccess.openConnection();
 
-                double lengte = Double.parseDouble(rechthoekWaarden[0]);
-                double breedte = Double.parseDouble(rechthoekWaarden[1]);
-                double xCoordinaat = Double.parseDouble(rechthoekWaarden[2]);
-                double yCoordinaat = Double.parseDouble(rechthoekWaarden[3]);
-                String kleur = rechthoekWaarden[4];
+        cirkelDAO.slaCirkelOp(new Cirkel(6.5, new Punt(-2.3,-1.3),"beige"));
 
-                rechthoeken.add(new Rechthoek(lengte, breedte, new Punt(xCoordinaat, yCoordinaat), kleur));
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("Het bestand is niet gevonden");
-        }
-
-        try (PrintWriter printWriter = new PrintWriter("resources/Rechthoeken.txt")) {
-
-            for (Rechthoek rechthoek : rechthoeken) {
-                printWriter.println(rechthoek);
-                printWriter.println();
-            }
-
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Het bestand kon niet worden aangemaakt.");
-        }
+        dBaccess.closeConnection();
     }
 }
